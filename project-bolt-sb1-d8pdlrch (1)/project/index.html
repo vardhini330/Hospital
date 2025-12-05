@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HospitalLink 360 - Complete Hospital Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="screen active">
+        <div class="splash-content">
+            <div class="logo-container">
+                <i class="fas fa-heartbeat heart-icon"></i>
+                <i class="fas fa-stethoscope stethoscope-icon"></i>
+            </div>
+            <h1 class="splash-title">HospitalLink 360</h1>
+            <p class="splash-subtitle">Connecting Healthcare, Saving Lives</p>
+            <div class="loading-bar"></div>
+        </div>
+    </div>
+
+    <!-- Login Selection -->
+    <div id="login-selection" class="screen">
+        <div class="container">
+            <div class="header-section">
+                <div class="logo-header">
+                    <i class="fas fa-heartbeat"></i>
+                    <h1>HospitalLink 360</h1>
+                </div>
+                <p>Choose your login type to continue</p>
+            </div>
+
+            <div class="login-options">
+                <div class="login-card patient-card" onclick="showPatientLogin()">
+                    <div class="card-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h2>Login as Patient</h2>
+                    <p>Book appointments, access emergency services, and manage your healthcare needs</p>
+                    <div class="features">
+                        <div class="feature">
+                            <div class="feature-dot"></div>
+                            Emergency SOS Alert
+                        </div>
+                        <div class="feature">
+                            <div class="feature-dot"></div>
+                            Book Appointments
+                        </div>
+                        <div class="feature">
+                            <div class="feature-dot"></div>
+                            Find Doctors & Hospitals
+                        </div>
+                    </div>
+                    <button class="continue-btn patient-btn">Continue as Patient</button>
+                </div>
+
+                <div class="login-card hospital-card" onclick="showHospitalLogin()">
+                    <div class="card-icon hospital-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h2>Login as Hospital Management</h2>
+                    <p>Manage doctors, monitor bed availability, and access AI-powered analytics</p>
+                    <div class="features">
+                        <div class="feature">
+                            <div class="feature-dot hospital-dot"></div>
+                            Doctor Management
+                        </div>
+                        <div class="feature">
+                            <div class="feature-dot hospital-dot"></div>
+                            Bed Availability Tracking
+                        </div>
+                        <div class="feature">
+                            <div class="feature-dot hospital-dot"></div>
+                            AI Analytics Dashboard
+                        </div>
+                    </div>
+                    <button class="continue-btn hospital-btn">Continue as Hospital</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient Login -->
+    <div id="patient-login" class="screen">
+        <div class="container">
+            <button class="back-btn" onclick="showLoginSelection()">
+                <i class="fas fa-arrow-left"></i>
+                Back to Selection
+            </button>
+
+            <div class="login-form-container">
+                <div class="form-header">
+                    <div class="form-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h2>Patient Login</h2>
+                    <p>Enter your details to continue</p>
+                </div>
+
+                <form id="patient-form" class="login-form">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="patient-name" placeholder="Enter your full name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Age</label>
+                        <div class="input-group">
+                            <i class="fas fa-hashtag"></i>
+                            <input type="number" id="patient-age" placeholder="Enter your age" min="1" max="120" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <div class="input-group">
+                            <i class="fas fa-calendar"></i>
+                            <input type="date" id="patient-dob" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contact Number</label>
+                        <div class="input-group">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="patient-phone" placeholder="+91 98765 43210" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email ID</label>
+                        <div class="input-group">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="patient-email" placeholder="your.email@example.com" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient Dashboard -->
+    <div id="patient-dashboard" class="screen">
+        <div class="container">
+            <div class="dashboard-header">
+                <div class="welcome-section">
+                    <h1>Welcome, <span id="patient-name-display"></span></h1>
+                    <p>Your health is our priority</p>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+
+            <div class="patient-info">
+                <div class="info-item">
+                    <i class="fas fa-phone"></i>
+                    <span id="patient-phone-display"></span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-calendar"></i>
+                    Age: <span id="patient-age-display"></span>
+                </div>
+            </div>
+
+            <div class="dashboard-actions">
+                <div class="action-card emergency-card" onclick="triggerEmergencySOS()">
+                    <div class="emergency-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h2>Emergency Ambulance SOS</h2>
+                    <p>Tap here for immediate emergency assistance. Your location will be shared with the nearest available ambulance.</p>
+                    <div class="location-info">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Location tracking enabled
+                    </div>
+                </div>
+
+                <div class="action-card appointment-card" onclick="showBookAppointment()">
+                    <div class="appointment-icon">
+                        <i class="fas fa-calendar-plus"></i>
+                    </div>
+                    <h2>Book Appointment</h2>
+                    <p>Schedule an appointment with top doctors at leading hospitals. Easy booking with instant confirmation.</p>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <div class="feature-dot"></div>
+                            Choose from 1000+ doctors
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-dot"></div>
+                            Instant confirmation
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-stats">
+                <h3>Quick Actions</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Emergency Service</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Hospitals</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">1000+</div>
+                        <div class="stat-label">Doctors</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Cities</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Book Appointment -->
+    <div id="book-appointment" class="screen">
+        <div class="container">
+            <button class="back-btn" onclick="showPatientDashboard()">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </button>
+
+            <div class="appointment-container">
+                <div class="appointment-header">
+                    <h1>Book Appointment</h1>
+                    <div class="step-indicator">
+                        <span>Step <span id="current-step">1</span> of 4</span>
+                    </div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+
+                <!-- Step 1: City Selection -->
+                <div id="step-1" class="appointment-step active">
+                    <h2>Select City</h2>
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="city-search" placeholder="Search for your city">
+                    </div>
+                    <div class="options-grid" id="cities-list"></div>
+                </div>
+
+                <!-- Step 2: Hospital Selection -->
+                <div id="step-2" class="appointment-step">
+                    <div class="step-header">
+                        <h2>Select Hospital in <span id="selected-city"></span></h2>
+                        <button class="change-btn" onclick="goToStep(1)">Change City</button>
+                    </div>
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="hospital-search" placeholder="Search for hospitals">
+                    </div>
+                    <div class="options-list" id="hospitals-list"></div>
+                </div>
+
+                <!-- Step 3: Doctor Selection -->
+                <div id="step-3" class="appointment-step">
+                    <div class="step-header">
+                        <h2>Select Doctor</h2>
+                        <button class="change-btn" onclick="goToStep(2)">Change Hospital</button>
+                    </div>
+                    <div class="selected-hospital-info" id="selected-hospital-info"></div>
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="doctor-search" placeholder="Search doctors by name or specialization">
+                    </div>
+                    <div class="options-list" id="doctors-list"></div>
+                </div>
+
+                <!-- Step 4: Appointment Details -->
+                <div id="step-4" class="appointment-step">
+                    <h2>Appointment Details</h2>
+                    <div class="selected-doctor-info" id="selected-doctor-info"></div>
+                    
+                    <form id="appointment-form" class="appointment-details-form">
+                        <div class="form-group">
+                            <label>Patient Name</label>
+                            <input type="text" id="appointment-patient-name" disabled>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Age</label>
+                                <input type="number" id="appointment-age">
+                            </div>
+                            <div class="form-group">
+                                <label>Gender (Optional)</label>
+                                <select id="appointment-gender">
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Symptoms (Optional)</label>
+                            <textarea id="appointment-symptoms" placeholder="Describe your symptoms or reason for visit" rows="4"></textarea>
+                            <p class="form-help">You can also use voice input or detailed text to describe your symptoms</p>
+                        </div>
+
+                        <div class="fee-info">
+                            <div class="fee-details">
+                                <h4>Consultation Fee</h4>
+                                <p>Includes appointment booking and consultation</p>
+                            </div>
+                            <div class="fee-amount">
+                                <i class="fas fa-rupee-sign"></i>
+                                500
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Proceed to Payment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Appointment Confirmation -->
+    <div id="appointment-confirmation" class="screen">
+        <div class="container">
+            <div class="confirmation-container">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h1>Appointment Confirmed!</h1>
+                <p>Your appointment has been successfully booked</p>
+
+                <div class="appointment-details" id="confirmation-details">
+                    <!-- Details will be populated by JavaScript -->
+                </div>
+
+                <div class="instructions">
+                    <h3>Important Instructions</h3>
+                    <ul>
+                        <li>Please arrive 15 minutes before your appointment time</li>
+                        <li>Bring a valid ID and your reference number</li>
+                        <li>Carry any previous medical reports if available</li>
+                        <li>Your token number will be called for consultation</li>
+                    </ul>
+                </div>
+
+                <div class="confirmation-actions">
+                    <button class="download-btn" onclick="downloadPDF()">
+                        <i class="fas fa-download"></i>
+                        Download PDF
+                    </button>
+                    <button class="back-btn" onclick="showPatientDashboard()">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Dashboard
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hospital Login -->
+    <div id="hospital-login" class="screen">
+        <div class="container">
+            <button class="back-btn" onclick="showLoginSelection()">
+                <i class="fas fa-arrow-left"></i>
+                Back to Selection
+            </button>
+
+            <div class="login-form-container">
+                <div class="form-header">
+                    <div class="form-icon hospital-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h2>Hospital Management Login</h2>
+                    <p>Access your hospital administration panel</p>
+                </div>
+
+                <form id="hospital-form" class="login-form">
+                    <div class="form-group">
+                        <label>Hospital Name</label>
+                        <div class="input-group">
+                            <i class="fas fa-building"></i>
+                            <input type="text" id="hospital-name" placeholder="Enter hospital name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Hospital Code / ID</label>
+                        <div class="input-group">
+                            <i class="fas fa-hashtag"></i>
+                            <input type="text" id="hospital-code" placeholder="Enter hospital code" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Admin Contact Email</label>
+                        <div class="input-group">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="hospital-email" placeholder="admin@hospital.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="hospital-password" placeholder="Enter password" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn hospital-submit">Login</button>
+                </form>
+
+                <div class="demo-credentials">
+                    <h3>Demo Credentials</h3>
+                    <div class="demo-info">
+                        <div>Hospital: City General Hospital</div>
+                        <div>Code: CGH001</div>
+                        <div>Email: admin@citygeneral.com</div>
+                        <div>Password: demo123</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hospital Dashboard -->
+    <div id="hospital-dashboard" class="screen">
+        <div class="container">
+            <div class="dashboard-header">
+                <div class="welcome-section">
+                    <h1 id="hospital-name-display"></h1>
+                    <p>Hospital Management Dashboard</p>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+
+            <div class="hospital-info">
+                <div class="info-item">
+                    Hospital Code: <span id="hospital-code-display"></span>
+                </div>
+                <div class="info-item">
+                    Admin: <span id="hospital-email-display"></span>
+                </div>
+            </div>
+
+            <div class="hospital-tabs">
+                <button class="tab-btn active" onclick="showHospitalTab('overview')">
+                    <i class="fas fa-chart-bar"></i>
+                    Overview
+                </button>
+                <button class="tab-btn" onclick="showHospitalTab('doctors')">
+                    <i class="fas fa-user-md"></i>
+                    Doctor Management
+                </button>
+                <button class="tab-btn" onclick="showHospitalTab('beds')">
+                    <i class="fas fa-bed"></i>
+                    Bed Availability
+                </button>
+                <button class="tab-btn" onclick="showHospitalTab('analytics')">
+                    <i class="fas fa-brain"></i>
+                    AI Analytics
+                </button>
+            </div>
+
+            <div id="hospital-overview" class="hospital-tab-content active">
+                <div class="stats-grid">
+                    <div class="stat-card blue">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Doctors</h3>
+                            <div class="stat-number">24</div>
+                        </div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-icon">
+                            <i class="fas fa-bed"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Available Beds</h3>
+                            <div class="stat-number">125</div>
+                        </div>
+                    </div>
+                    <div class="stat-card purple">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Today's Appointments</h3>
+                            <div class="stat-number">87</div>
+                        </div>
+                    </div>
+                    <div class="stat-card red">
+                        <div class="stat-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Emergency Alerts</h3>
+                            <div class="stat-number">12</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overview-grid">
+                    <div class="overview-card">
+                        <h3>Bed Occupancy Status</h3>
+                        <div class="bed-stats">
+                            <div class="bed-stat">
+                                <span>Total Beds</span>
+                                <span>500</span>
+                            </div>
+                            <div class="bed-stat">
+                                <span>Occupied</span>
+                                <span class="occupied">375</span>
+                            </div>
+                            <div class="bed-stat">
+                                <span>Available</span>
+                                <span class="available">125</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                        <div class="occupancy-rate">75% Occupancy Rate</div>
+                    </div>
+
+                    <div class="overview-card">
+                        <h3>Recent Activity</h3>
+                        <div class="activity-list">
+                            <div class="activity-item blue">
+                                <div class="activity-dot"></div>
+                                <span>New appointment booked with Dr. Rajesh Kumar</span>
+                            </div>
+                            <div class="activity-item green">
+                                <div class="activity-dot"></div>
+                                <span>Bed released in General Ward</span>
+                            </div>
+                            <div class="activity-item red">
+                                <div class="activity-dot"></div>
+                                <span>Emergency SOS alert received</span>
+                            </div>
+                            <div class="activity-item purple">
+                                <div class="activity-dot"></div>
+                                <span>Dr. Priya Sharma marked as On Duty</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="hospital-doctors" class="hospital-tab-content">
+                <h2>Doctor Overview</h2>
+                <div class="doctors-grid" id="doctors-grid">
+                    <!-- Doctors will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div id="hospital-beds" class="hospital-tab-content">
+                <h2>Bed Availability Management</h2>
+                <div class="bed-categories">
+                    <div class="bed-category">
+                        <div class="category-header">
+                            <h3>ICU Beds</h3>
+                            <span class="status critical">Critical</span>
+                        </div>
+                        <div class="bed-numbers">
+                            <span>Total: 50</span>
+                            <span>Occupied: 42</span>
+                            <span>Available: 8</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 84%"></div>
+                        </div>
+                    </div>
+
+                    <div class="bed-category">
+                        <div class="category-header">
+                            <h3>General Ward</h3>
+                            <span class="status moderate">Moderate</span>
+                        </div>
+                        <div class="bed-numbers">
+                            <span>Total: 350</span>
+                            <span>Occupied: 280</span>
+                            <span>Available: 70</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 80%"></div>
+                        </div>
+                    </div>
+
+                    <div class="bed-category">
+                        <div class="category-header">
+                            <h3>Emergency Beds</h3>
+                            <span class="status good">Good</span>
+                        </div>
+                        <div class="bed-numbers">
+                            <span>Total: 100</span>
+                            <span>Occupied: 53</span>
+                            <span>Available: 47</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 53%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="hospital-analytics" class="hospital-tab-content">
+                <h2>AI Analytics & Intelligence</h2>
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3>Emergency SOS Alerts Today</h3>
+                        <div class="alerts-list">
+                            <div class="alert-item">
+                                <div class="alert-time">10:30 AM</div>
+                                <div class="alert-location">Andheri West</div>
+                                <div class="alert-status dispatched">Dispatched</div>
+                            </div>
+                            <div class="alert-item">
+                                <div class="alert-time">11:15 AM</div>
+                                <div class="alert-location">Bandra East</div>
+                                <div class="alert-status enroute">En Route</div>
+                            </div>
+                            <div class="alert-item">
+                                <div class="alert-time">12:45 PM</div>
+                                <div class="alert-location">Powai</div>
+                                <div class="alert-status completed">Completed</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-card">
+                        <h3>Disease Trend Heatmap</h3>
+                        <div class="disease-trends">
+                            <div class="trend-item">
+                                <span>Hypertension</span>
+                                <div class="trend-bar">
+                                    <div class="trend-fill" style="width: 35%"></div>
+                                </div>
+                                <span>35%</span>
+                            </div>
+                            <div class="trend-item">
+                                <span>Diabetes</span>
+                                <div class="trend-bar">
+                                    <div class="trend-fill" style="width: 28%"></div>
+                                </div>
+                                <span>28%</span>
+                            </div>
+                            <div class="trend-item">
+                                <span>Respiratory Issues</span>
+                                <div class="trend-bar">
+                                    <div class="trend-fill" style="width: 22%"></div>
+                                </div>
+                                <span>22%</span>
+                            </div>
+                            <div class="trend-item">
+                                <span>Cardiac Issues</span>
+                                <div class="trend-bar">
+                                    <div class="trend-fill" style="width: 15%"></div>
+                                </div>
+                                <span>15%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
